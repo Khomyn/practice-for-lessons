@@ -2,33 +2,52 @@
  * @param {Array<Object>} arr - this is an array of objects
  * @return {Array} result of the sum value.
  * @example
- * const arr = [{flags: [1, 2, 3]}, {flags: [4, 5, 6]}, {flags: [14, 51, 6]}];
+ * const arr = [{flags: [1, 2, 3]}, {user: [4, 5, 6]}, {salary: [14, 51, 6]}];
  * getFlags(arr); // [1, 2, 3, 4, 5, 6, 14, 51, 6]
  */
 
-const arr = [{flags: [1, 2, 3]}, {flags: [4, 5, 6]}, {flags: [14, 51, 6]}];
 
 function getFlags(arr)  {
 
-  let newArr = [];
+  // let newArr = [];
   let result = [];
 
-  arr.forEach(function (item) {
-    newArr.push(item.flags);
-  });
+  // arr.forEach(function (item) {
+  //   newArr.push(item.flags);
+  // });
 
-  newArr.map(function (item) {
-   item.map(function (number) {
-     result.push(number);
-   });
-  });
+  // newArr.map(function (item) {
+  //  item.map(function (number) {
+  //    result.push(number);
+  //  });
+  // });
+
+  
+// ***********************
+  // arr.forEach(function(el) {
+  //   el.flags.forEach(function(item) {
+  //     result.push(item)
+  //   })
+  // })
+
+// ***********************
+  arr.forEach(function(el) {
+    for(let key in el){
+      el[key].forEach(function(item) {
+        result.push(item);
+      })
+    }
+  })
+
+  // *******************
+  // arr.map(el => result = [...result, ...el.flags]);
 
   return result;
 };
 
-var count = getFlags(arr);
+// var arr = [{flags: [1, 2, 3], yoy: [100, 200]}, {flags: [4, 5, 6]}, {flags: [14, 51, 6]}];
+// console.log(getFlags(arr))
 
-console.log(count);
 
 
 /**
@@ -43,18 +62,20 @@ console.log(count);
 function isObject(obj)  {
   /* your logic here...*/
 
-  if (typeof obj === 'object' && obj !== null && !Array.isArray(obj) ) {
-    return true;
-  }
-  else {
-    return false;
-  }
+  // if (typeof obj === 'object' && obj !== null && !Array.isArray(obj) ) {
+  //   return true;
+  // }  
+  // return false;
+
+  return (typeof obj === 'object' && obj !== null && !Array.isArray(obj))
+  
 };
 
 
-var log = isObject([]);
-
-console.log(log);
+// console.log(isObject({}))
+// console.log(isObject([]))
+// console.log(isObject(null))
+// console.log(isObject('object'))
 
 
 /**
@@ -69,15 +90,20 @@ function max(arr) {
 
   var maxCount = -Infinity;
 
-  for ( var i = 0; i < arr.length; i++) {
-    if (arr[i] > maxCount) {
-      maxCount = arr[i];
-    }
-  }
+  // for ( var i = 0; i < arr.length; i++) {
+  //   if (arr[i] > maxCount) {
+  //     maxCount = arr[i];
+  //   }
+  // }
+
+  arr.forEach(function(el) {
+    maxCount = el > maxCount ? el : maxCount;
+  })
   return maxCount;
 };
 
-console.log(max([-1, 77, 4]));
+// console.log(max([1, 2, 4]));
+// console.log(max([-100, 2, 0, 50]));
 
 /**
  *  This function should return sum of
@@ -91,24 +117,35 @@ console.log(max([-1, 77, 4]));
  * sumElements(['1', 'hi', 3]);     // 4
  * sumElements([Infinity, NaN, 1]); // 1
  */
+
 function sumElements(arr) {
   /* your logic here...*/
 
   var sum = 0;
 
-  for (var i = 0; i < arr.length; i++) {
-    if(isNaN(i)) {
-      arr[i] = 0;
-    }
-    sum += arr[i];
-  }
+  // for (var i = 0; i < arr.length; i++) {
+  //   if(isNaN(arr[i])) {
+  //     arr[i] = 0;
+  //   }
+  //   sum += arr[i];
+  // }
 
+  // arr.forEach(function(el) {
+  //   var num = parseInt(el, 10);
+  //   if (num) {
+  //     sum += num;
+  //   }
+  // })
   return sum;
 };
 
+// console.log(sumElements([1, 2, 3]))
+// console.log(sumElements(['1', 'hi', 3]))
+// console.log(sumElements([Infinity, NaN, 1]))
 
-var sumFn = sumElements(['NaN', 7, 9, 10]);
-console.log(sumFn);
+
+// var sumFn = sumElements([NaN, 7, 9, 10]);
+// console.log(sumFn);
 
 /**
  * This function should truncate the passed string and add "..." to
@@ -121,11 +158,19 @@ console.log(sumFn);
  * @example
  * truncate('It is good weather', 7, '*'); // 'It is *
  */
+
 function truncate(str, length = 0, replacer = '...')  {
-  /* your logic here...*/
-  return newStr;
+  var endIndex = length >= 0 ? length - replacer.length : str.length - replacer.length; 
+  if (endIndex < 0 ) {
+    endIndex = str.length - replacer.length;
+  } 
+
+  var result = str.slice(0, endIndex) + replacer;
+  return result;
 };
 
+
+// console.log(truncate('It is good weather to go for a walk', 15))
 
 
 /**
@@ -139,10 +184,17 @@ function truncate(str, length = 0, replacer = '...')  {
  */
 function turnMeBaby(str) {
   /* your logic here...*/
+  var result ='';
 
-  return newStr;
+   for(var i = str.length - 1; i >= 0; i-- ) {
+     result += str[i];
+   }
+
+  return result;
 };
 
+// console.log(turnMeBaby('hello'));
+// console.log(turnMeBaby('Some text'));
 
 /**
  * This function should return values of first two elements which sum equals to "base" parameter
@@ -156,15 +208,126 @@ function turnMeBaby(str) {
  * twoSums([5, 9, 3], 8); // [5, 3]
  */
 function twoSums(arr, base) {
-  /* your logic here...*/
-  return newArr;
+  var result = [];
+  var outK = 0;
+  var inK = 0;
+ for(var i = 0; i < arr.length; i++) {
+  for(var j = i; j < arr.length; j++) {
+    inK++;
+    if (arr[i] + arr[j] === base) {
+      result = [arr[i], arr[j]];
+      break;
+    }    
+  }
+  outK++
+  if (result.length) {
+    break;
+  }  
+
+ }
+
+
+// console.log('out loop => ', outK);
+// console.log('in loop => ', inK);
+// console.log(arr.length);
+
+  return result;
 };
 
+// console.log(twoSums([1, 2, 24, 5, 8, 31, 5, 93, 3, 45, 9, 8, 15, 9, 3, 51, 9, 3], 144))
+// console.log(twoSums([5, 9, 3], 12))
+// console.log(twoSums([5, 9, 3], 8))
+
+
+/**
+ * New tasks below
+ * 
+ */
+
+
+function mySort(array) {
+  // return array.sort(function(a,b) {
+  //   return a - b;
+  // })
+  for(var i = 0; i < array.length; i++){
+    for(var j = i + 1; j < array.length; j++) {
+      if (array[i] > array[j]) {
+        var elem = array[i];
+        array[i] = array[j];
+        array[j] = elem;
+      }
+    }
+  }
+  return array;
+}
 
 
 
+// console.log(mySort([203, 56, 17, 25, 55, 79, 99, 945]));
+// console.log('Vasja');
+
+// 'use strict'
+// function foo() {
+//   console.log(this)
+// }
+
+// foo();
 
 
 
+  // new showThis();
+
+  // var factorial = function(number) {
+  //   if (number <= 0) { // terminal case
+  //   return 1;
+  //   } else { // block to execute
+  //   return (number * factorial(number - 1));
+  //   }
+  //   };
+    // console.log(factorial(66));
+
+      // 6 * (5 * (4 * (3 * (2 * (1 * 1)))))
+// [[1,2, [4, 6, ]],3,5,8,12,44]
 
 
+
+// console.log('hi');
+// setTimeout(function cb() {
+// console.log('there');
+// }, 1000);
+// console.log('bye');
+
+
+// const User = (name, lastName) => {
+//   this._name = name;
+//   this.lastName = lastName;
+
+//   this.getName = function() {
+//     return this._name;    
+//   }
+
+//   this.setName = function(name) {
+//     this._name = name;
+//   }
+// }
+
+// var user = new User('Vasja', 'Ivanov');
+
+// console.log(user);
+
+// user._name = 'Petro'
+
+function User(name, lastName, yearOfBorn) {
+  this.name = name;
+  this.lastName = lastName;
+  this.yearOfBorn = yearOfBorn;
+
+  this.getAge = function() {
+    return new Date().getFullYear() - this.yearOfBorn;
+  }
+}
+
+
+var user = new User('Andriy', 'Sedorenlo', 1990);
+
+console.log(user);
